@@ -40,7 +40,7 @@ export default function MoreSettingForm({ data, onChange, namespaces }: MoreSett
   };
 
   const handleAddNodeSelector = () => {
-    const updatedData = [...(data.nodeSelectors || []), { }];
+    const updatedData = [...(data.nodeSelectors || []), { touched: false }];
     onChange('nodeSelectors', updatedData);
   }
 
@@ -53,6 +53,12 @@ export default function MoreSettingForm({ data, onChange, namespaces }: MoreSett
   const handleNodeSelectorChange = (index: number, field: string, value: any) => {
     const newData = [...(data.nodeSelectors || [])];
     (newData[index] as any)[field] = value;
+    onChange('nodeSelectors', newData);
+  };
+
+  const handleNodeSelectorBlur = (index: number) => {
+    const newData = [...(data.nodeSelectors || [])];
+    newData[index].touched = true;
     onChange('nodeSelectors', newData);
   };
 
@@ -113,8 +119,9 @@ export default function MoreSettingForm({ data, onChange, namespaces }: MoreSett
               label="Key"
               placeholder="Please input key"
               value={selector?.key}
-              error={!selector?.key} // Add validation logic here
-              helperText={!selector?.key && "Missing key"}
+              error={selector.touched && !selector?.key}
+              helperText={selector.touched && !selector?.key ? "Missing key" : ''}
+              onBlur={() => handleNodeSelectorBlur(index)}
               onChange={(e) => handleNodeSelectorChange(index, 'key', e.target.value)}
               margin="normal"
             />
@@ -122,8 +129,9 @@ export default function MoreSettingForm({ data, onChange, namespaces }: MoreSett
               label="Value"
               placeholder="Please input value"
               value={selector?.value}
-              error={!selector?.value} // Add validation logic here
-              helperText={!selector?.value && "Missing value"}
+              error={selector.touched && !selector?.value}
+              helperText={selector.touched && !selector?.value ? "Missing value" : ''}
+              onBlur={() => handleNodeSelectorBlur(index)}
               onChange={(e) => handleNodeSelectorChange(index, 'value', e.target.value)}
               margin="normal"
               style={{ marginLeft: 16 }}

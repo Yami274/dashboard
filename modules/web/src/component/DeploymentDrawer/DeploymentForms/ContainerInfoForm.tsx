@@ -25,12 +25,13 @@ interface ContainerInfoFormProps {
   onChange: (field: string, value: any) => void;
   configMaps: ConfigMap[];
   secrets: Secret[];
+  showValidation?: boolean; // 添加这一行
 }
 
 const fieldRefValues = ['meta.name', 'meta.namespace', 'meta.labels', 'meta.annotations', 'spec.nodeName', 'spec.serviceAccountName', 'status.hostIP', 'status.podIP'];
 const resourceFieldRefValues = ['limits.cpu', 'limits.memory', 'requests.cpu', 'requests.memory'];
 
-export default function ContainerInfoForm({ data, onChange, configMaps, secrets }: ContainerInfoFormProps) {
+export default function ContainerInfoForm({ data, onChange, configMaps, secrets, showValidation=false }: ContainerInfoFormProps) {
   const [refType, setRefType] = React.useState<string>('');
   const [keyRef, setKeyRef] = React.useState<string>('');
   const [keyFrom, setKeyFrom] = React.useState<string[]>([]);
@@ -93,9 +94,13 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets 
   }
 
   const handleRemovePort = (index: number, portIndex: number) => {
-    const updatedPorts = [...(data.containers || [{}])];
-    updatedPorts[index].ports?.splice(portIndex, 1);
-    onChange('containers', updatedPorts);
+    const updatedContainers = [...(data.containers || [{}])];
+    updatedContainers[index].ports?.splice(portIndex, 1);
+    // 如果 ports 被清空，自动取消勾选 showPorts
+    if (!updatedContainers[index].ports || updatedContainers[index].ports.length === 0) {
+      updatedContainers[index].showPorts = false;
+    }
+    onChange('containers', updatedContainers);
   }
 
   return (
@@ -103,6 +108,26 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets 
       <Grid item xs={12}>
         <Card>
           <CardContent>
+            {/* 修改验证警告逻辑，只在showValidation为true且没有容器时才显示 */}
+            {showValidation && (!data?.containers || data.containers.length === 0) && (
+              <Box sx={{ color: 'error.main', mb: 2 }}>
+                <Typography color="error">Initial Container and Work Container are required</Typography>
+              </Box>
+            )}
+            {showValidation && data?.containers && data.containers.length > 0 && (
+              <>
+                {!data.containers.some((c: any) => c.type === 'init') && (
+                  <Box sx={{ color: 'error.main', mb: 2 }}>
+                    <Typography color="error">Initial Container are required</Typography>
+                  </Box>
+                )}
+                {!data.containers.some((c: any) => c.type === 'work') && (
+                  <Box sx={{ color: 'error.main', mb: 2 }}>
+                    <Typography color="error">Work Container are required</Typography>
+                  </Box>
+                )}
+              </>
+            )}
             <Box sx={{ mb: 2 }}>
               <Button variant="contained" onClick={() => handleAddContainer('init')} sx={{ width: 200, mr: 2 }}>
                 Add initial container
@@ -140,8 +165,8 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets 
                     fullWidth
                     required
                     placeholder="Please enter name"
-                    error={!container?.name}
-                    helperText={!container?.name ? 'Missing name' : ''}
+                    error={showValidation && !container?.name}
+                    helperText={showValidation && !container?.name ? 'Missing name' : ''}
                     value={container?.name || ''}
                     onChange={(e) => handleFormChange(index, 'name', e.target.value)}
                     sx={{ mb: 2 }}
@@ -152,8 +177,8 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets 
                     fullWidth
                     required
                     placeholder="Please enter image"
-                    error={!container?.image}
-                    helperText={!container?.image ? 'Missing image' : ''}
+                    error={showValidation && !container?.image}
+                    helperText={showValidation && !container?.image ? 'Missing image' : ''}
                     value={container?.image || ''}
                     onChange={(e) => handleFormChange(index, 'image', e.target.value)}
                     sx={{ mb: 2 }}
@@ -225,8 +250,8 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets 
                             label="Key"
                             variant="outlined"
                             placeholder="Please enter key"
-                            error={!env.key}
-                            helperText={!env.key ? 'Missing key' : ''}
+                            error={showValidation && !env.key}
+                            helperText={showValidation && !env.key ? 'Missing key' : ''}
                             value={env.key}
                             onChange={(e) => {
                               const updatedEnvVars = [...(container?.envVars || [{}])];

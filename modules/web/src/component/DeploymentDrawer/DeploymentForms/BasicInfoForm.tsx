@@ -19,15 +19,19 @@ interface BasicInfoFormProps {
   };
   onChange: (field: string, value: any) => void;
   namespaces?: Namespace[];
+  showValidation?: boolean; // 添加验证控制属性
+  onClearValidation?: () => void; // 新增
 }
 
-export default function BasicInfoForm({ data, onChange, namespaces }: BasicInfoFormProps) {
+export default function BasicInfoForm({ data, onChange, namespaces, showValidation = false, onClearValidation }: BasicInfoFormProps) {
   const handleAddAnnotation = () => {
     onChange('annotations', [...(data?.annotations || []), { key: '', value: '' }]);
+    onClearValidation?.();
   };
 
   const handleAddLabel = () => {
     onChange('labels', [...(data?.labels || []), { key: '', value: '' }]);
+    onClearValidation?.();
   };
 
   const handleAnnotationChange = (index: number, field: string, value: string) => {
@@ -63,9 +67,10 @@ export default function BasicInfoForm({ data, onChange, namespaces }: BasicInfoF
         onChange={(e) => {
           onChange('namespace', e.target.value);
         }}
-        error={!data?.namespace}
+        error={showValidation && !data?.namespace}
         placeholder="Please select namespace"
         margin="normal"
+        helperText={showValidation && !data?.namespace ? 'Missing namespace' : ''}
       >
         {namespaces?.map((item) => (
           <MenuItem key={item?.metadata?.uid} value={item?.metadata?.name}>
@@ -80,9 +85,10 @@ export default function BasicInfoForm({ data, onChange, namespaces }: BasicInfoF
         fullWidth
         value={data?.name || ''}
         onChange={(e) => onChange('name', e.target.value)}
-        error={!data?.name}
+        error={showValidation && !data?.name}
         placeholder="Please enter name"
         margin="normal"
+        helperText={showValidation && !data?.name ? 'Missing name' : ''}
       />
 
       <TextField
@@ -109,14 +115,16 @@ export default function BasicInfoForm({ data, onChange, namespaces }: BasicInfoF
               placeholder="Please enter key"
               value={annotation.key}
               onChange={(e) => handleAnnotationChange(index, 'key', e.target.value)}
-              helperText={!annotation.key && 'Missing key'}
+              error={showValidation && !annotation.key}
+              helperText={showValidation && !annotation.key ? 'Missing key' : ''}
               fullWidth
             />
             <TextField
               placeholder="Please enter value"
               value={annotation.value}
               onChange={(e) => handleAnnotationChange(index, 'value', e.target.value)}
-              helperText={!annotation.value && 'Missing value'}
+              error={showValidation && !annotation.value}
+              helperText={showValidation && !annotation.value ? 'Missing value' : ''}
               fullWidth
             />
             <Button onClick={() => handleRemoveAnnotation(index)}>-</Button>
@@ -137,14 +145,16 @@ export default function BasicInfoForm({ data, onChange, namespaces }: BasicInfoF
               placeholder="Please enter key"
               value={label.key}
               onChange={(e) => handleLabelChange(index, 'key', e.target.value)}
-              helperText={!label.key && 'Missing key'}
+              error={showValidation && !label.key}
+              helperText={showValidation && !label.key ? 'Missing key' : ''}
               fullWidth
             />
             <TextField
               placeholder="Please enter value"
               value={label.value}
               onChange={(e) => handleLabelChange(index, 'value', e.target.value)}
-              helperText={!label.value && 'Missing value'}
+              error={showValidation && !label.value}
+              helperText={showValidation && !label.value ? 'Missing value' : ''}
               fullWidth
             />
             <Button onClick={() => handleRemoveLabel(index)}>-</Button>
@@ -162,10 +172,11 @@ export default function BasicInfoForm({ data, onChange, namespaces }: BasicInfoF
           const num = parseInt(e.target.value, 10);
           onChange('replicas', num);
         }}
-        error={!(data?.replicas || 1)}
+        error={showValidation && !(data?.replicas || 1)}
         placeholder="Please enter Replicas"
         margin="normal"
         inputProps={{ min: 1 }}
+        helperText={showValidation && !(data?.replicas || 1) ? 'Missing replicas' : ''}
       />
     </Box>
   );

@@ -27,7 +27,7 @@ interface StorageMountFormProps {
 
 export default function StorageMountForm({ data, onChange, configMaps, secrets }: StorageMountFormProps) {
   const handleAddVolume = () => {
-    const updatedData = [...(data.volumes || []), { }];
+    const updatedData = [...(data.volumes || []), { touched: false }];
     onChange('volumes', updatedData);
   }
 
@@ -40,6 +40,12 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
   const handleValueChange = (index: number, field: string, value: any) => {
     const newData = [...(data.volumes || [])];
     (newData[index] as any)[field] = value;
+    onChange('volumes', newData);
+  };
+
+  const handleVolumeBlur = (index: number) => {
+    const newData = [...(data.volumes || [])];
+    newData[index].touched = true;
     onChange('volumes', newData);
   };
 
@@ -109,8 +115,9 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
           placeholder="Please enter name"
           value={volume.name}
           onChange={(e) => handleValueChange(index, 'name', e.target.value)}
-          error={!volume.name}
-          helperText={!volume.name ? 'Miss name' : ''}
+          error={volume.touched && !volume.name}
+          helperText={volume.touched && !volume.name ? 'Miss name' : ''}
+          onBlur={() => handleVolumeBlur(index)}
         />
 
         <FormControl component="fieldset" fullWidth margin="normal">
@@ -138,8 +145,9 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
               placeholder="Please enter"
               value={volume?.hostPath}
               onChange={(e) => handleValueChange(index, 'hostPath', e.target.value)}
-              error={!volume?.hostPath}
-              helperText={!volume?.hostPath ? 'Missing path' : ''}
+              error={volume.touched && !volume?.hostPath}
+              helperText={volume.touched && !volume?.hostPath ? 'Missing path' : ''}
+              onBlur={() => handleVolumeBlur(index)}
             />
             <FormControl fullWidth margin="normal">
               <InputLabel>Host Path Type</InputLabel>
@@ -166,7 +174,8 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
               label="ConfigMap"
               value={volume?.configMap || ''}
               onChange={(e) => handleValueChange(index, 'configMap', e.target.value)}
-              error={!volume?.configMap}
+              error={volume.touched && !volume?.configMap}
+              onBlur={() => handleVolumeBlur(index)}
             >
               {configMaps.map((configMap) => (
                 <MenuItem key={configMap?.metadata?.uid} value={configMap?.metadata?.name}>
@@ -183,7 +192,8 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
               label="Secret Name"
               value={volume.secret || ''}
               onChange={(e) => handleValueChange(index, 'secret', e.target.value)}
-              error={!volume.secret}
+              error={volume.touched && !volume.secret}
+              onBlur={() => handleVolumeBlur(index)}
             >
               {secrets.map((secret) => (
                 <MenuItem key={secret?.metadata?.uid} value={secret?.metadata?.name}>
@@ -216,8 +226,9 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
                   }}
                   margin="normal"
                   placeholder="Please input key"
-                  error={!keyValue.key}
-                  helperText={!keyValue.key ? 'Missing key' : ''}
+                  error={volume.touched && !keyValue.key}
+                  helperText={volume.touched && !keyValue.key ? 'Missing key' : ''}
+                  onBlur={() => handleVolumeBlur(index)}
                 />
                 <TextField
                   label="Value"
@@ -230,8 +241,9 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
                   }}
                   margin="normal"
                   placeholder="Please input value"
-                  error={!keyValue.value}
-                  helperText={!keyValue.value ? 'Missing value' : ''}
+                  error={volume.touched && !keyValue.value}
+                  helperText={volume.touched && !keyValue.value ? 'Missing value' : ''}
+                  onBlur={() => handleVolumeBlur(index)}
                 />
                 <IconButton
                   color="error"
@@ -265,7 +277,8 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
                     updatedContainers[conIndex].container = e.target.value;
                     handleValueChange(index, 'mountContainers', updatedContainers);
                   }}
-                  error={!container.container}
+                  error={volume.touched && !container.container}
+                  onBlur={() => handleVolumeBlur(index)}
                 >
                   {data?.containers?.map((container: any) => (
                     <MenuItem key={container.name} value={container.name}>
@@ -285,8 +298,9 @@ export default function StorageMountForm({ data, onChange, configMaps, secrets }
                 }}
                 margin="normal"
                 placeholder="Please input mountPath"
-                error={!container.mountPath}
-                helperText={!container.mountPath ? 'Missing mountPath' : ''}
+                error={volume.touched && !container.mountPath}
+                helperText={volume.touched && !container.mountPath ? 'Missing mountPath' : ''}
+                onBlur={() => handleVolumeBlur(index)}
               />
               <IconButton
                 color="error"

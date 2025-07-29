@@ -28,6 +28,9 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
   const { data: configMaps, mutate: configMapMutate } = useListConfigMaps(namespace);
   const { data: secrets, mutate: secretMutate } = useListSecrets(namespace);
   const { data: namespaces } = useListNamespaces();
+  const [showBasicInfoValidation, setShowBasicInfoValidation] = useState(false);
+  // 在现有状态声明下面添加
+  const [showContainerInfoValidation, setShowContainerInfoValidation] = useState(false);
 
   useEffect(() => {
     configMapMutate();
@@ -42,9 +45,33 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
     if (field === 'namespace') {
       setNamespace(value);
     }
+    // 当容器数据发生变化时，重置容器验证状态
+    if (field === 'containers') {
+      setShowContainerInfoValidation(false);
+    }
   };
 
   const handleNext = () => {
+    if (activeStep === 0) {
+      // 验证Basic Info表单必填项
+      const hasEmptyFields = !data?.namespace || !data?.name || !(data?.replicas || 1);
+      if (hasEmptyFields) {
+        setShowBasicInfoValidation(true);
+        return; // 阻止继续到下一步
+      }
+    } else if (activeStep === 1) {
+      // 验证Container Info表单必填项
+      const containers = data?.containers || [];
+      const hasContainers = containers.length > 0;
+      // 检查每个容器的必填项（name 和 image）
+      const allContainersValid = containers.length > 0 && containers.every((c: any) => c.name && c.image);
+      const hasInit = containers.some((c: any) => c.type === 'init');
+      const hasWork = containers.some((c: any) => c.type === 'work');
+      if (!(hasInit && hasWork && allContainersValid)) {
+        setShowContainerInfoValidation(true);
+        return; // 阻止继续到下一步
+      }
+    }
     setActiveStep((prevStep) => prevStep + 1);
   };
 
@@ -55,6 +82,8 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
   const handleReset = () => {
     setActiveStep(0);
     setData({});
+    setShowBasicInfoValidation(false);
+    setShowContainerInfoValidation(false); // 添加这一行，重置容器验证状态
   };
 
   const getContainers = () => {
@@ -425,9 +454,21 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <BasicInfoForm data={data} onChange={handleDataChange} namespaces={namespaces?.items || []} />;
+        return <BasicInfoForm
+          data={data}
+          onChange={handleDataChange}
+          namespaces={namespaces?.items || []}
+          showValidation={showBasicInfoValidation}
+          onClearValidation={() => setShowBasicInfoValidation(false)}
+        />;
       case 1:
-        return <ContainerInfoForm data={data} onChange={handleDataChange} configMaps={configMaps?.items || []} secrets={secrets?.items || []} />;
+        return <ContainerInfoForm
+          data={data}
+          onChange={handleDataChange}
+          configMaps={configMaps?.items || []}
+          secrets={secrets?.items || []}
+          showValidation={showContainerInfoValidation} // 添加这一行
+        />;
       case 2:
         return <StorageMountForm data={data} onChange={handleDataChange} configMaps={configMaps?.items || []} secrets={secrets?.items || []} />;
       case 3:
@@ -438,18 +479,33 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
   };
 
   return (
-    <Drawer anchor="right" open={open} onClose={handleClose} sx={{
-      '& .MuiDrawer-paper': {
-        width: '70%',
-        maxWidth: '70%',
-        top: '50px', // Distance from top
-        height: 'calc(100% - 50px)', // Adjust height to fit within the viewport
-        borderTopLeftRadius: '6px',
-        borderBottomLeftRadius: '6px',
-        padding: '20px',
-      },
-    }}>
-      <Box sx={{ padding: '24px', width: '70vw', boxSizing: 'border-box' }}>
+    <Drawer
+      anchor="right"
+      open={open}
+      onClose={handleClose}
+      sx={{
+        '& .MuiDrawer-paper': {
+          width: '100%',
+          maxWidth: 900, // 最大宽度900px
+          top: '50px',
+          height: 'calc(100% - 50px)',
+          borderTopLeftRadius: '6px',
+          borderBottomLeftRadius: '6px',
+          padding: '20px',
+          boxSizing: 'border-box',
+          overflowX: 'hidden', // 防止Drawer本身溢出
+        },
+      }}
+    >
+      <Box
+        sx={{
+          padding: '24px',
+          width: '100%',
+          maxWidth: '100%',
+          boxSizing: 'border-box',
+          overflowX: 'auto', // 内容区横向滚动
+        }}
+      >
         <Box sx={{ marginBottom: '24px' }}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => (
