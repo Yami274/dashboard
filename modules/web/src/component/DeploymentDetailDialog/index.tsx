@@ -23,7 +23,7 @@ import { Pod } from '@/types/pod';
 import YAMLViewerDialog from '../YAMLViewerDialog';
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode;   
   index: number;
   value: number;
 }

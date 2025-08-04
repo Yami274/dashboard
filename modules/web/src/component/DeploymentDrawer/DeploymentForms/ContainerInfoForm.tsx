@@ -25,7 +25,7 @@ interface ContainerInfoFormProps {
   onChange: (field: string, value: any) => void;
   configMaps: ConfigMap[];
   secrets: Secret[];
-  showValidation?: boolean; // 添加这一行
+  showValidation?: boolean; // Add this line
 }
 
 const fieldRefValues = ['meta.name', 'meta.namespace', 'meta.labels', 'meta.annotations', 'spec.nodeName', 'spec.serviceAccountName', 'status.hostIP', 'status.podIP'];
@@ -96,7 +96,7 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets,
   const handleRemovePort = (index: number, portIndex: number) => {
     const updatedContainers = [...(data.containers || [{}])];
     updatedContainers[index].ports?.splice(portIndex, 1);
-    // 如果 ports 被清空，自动取消勾选 showPorts
+    // If ports are cleared, automatically uncheck showPorts
     if (!updatedContainers[index].ports || updatedContainers[index].ports.length === 0) {
       updatedContainers[index].showPorts = false;
     }
@@ -108,7 +108,7 @@ export default function ContainerInfoForm({ data, onChange, configMaps, secrets,
       <Grid item xs={12}>
         <Card>
           <CardContent>
-            {/* 修改验证警告逻辑，只在showValidation为true且没有容器时才显示 */}
+            {/* Modify validation warning logic, only show when showValidation is true and no containers */}
             {showValidation && (!data?.containers || data.containers.length === 0) && (
               <Box sx={{ color: 'error.main', mb: 2 }}>
                 <Typography color="error">Initial Container and Work Container are required</Typography>

@@ -19,8 +19,8 @@ interface BasicInfoFormProps {
   };
   onChange: (field: string, value: any) => void;
   namespaces?: Namespace[];
-  showValidation?: boolean; // 添加验证控制属性
-  onClearValidation?: () => void; // 新增
+  showValidation?: boolean; // Add validation control property
+  onClearValidation?: () => void; // New
 }
 
 export default function BasicInfoForm({ data, onChange, namespaces, showValidation = false, onClearValidation }: BasicInfoFormProps) {

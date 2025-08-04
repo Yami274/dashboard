@@ -12,7 +12,7 @@ const typeOptions = {
     defaultValue: '1',
     minimum: '1',
     maximum: '5',
-    unit: "度",
+    unit: "degree",
   },
   string: {
     accessMode: "ReadWrite",
@@ -23,14 +23,14 @@ const typeOptions = {
     defaultValue: "1.0",
     minimum: "1.0",
     maximum: "5.0",
-    unit: "度",
+    unit: "degree",
   },
   float: {
     accessMode: "ReadWrite",
     defaultValue: "1.0",
     minimum: "1.0",
     maximum: "5.0",
-    unit: "度",
+    unit: "degree",
   },
   boolean: {
     accessMode: "ReadWrite",

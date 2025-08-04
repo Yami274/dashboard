@@ -29,7 +29,7 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
   const { data: secrets, mutate: secretMutate } = useListSecrets(namespace);
   const { data: namespaces } = useListNamespaces();
   const [showBasicInfoValidation, setShowBasicInfoValidation] = useState(false);
-  // 在现有状态声明下面添加
+  // Add below existing state declarations
   const [showContainerInfoValidation, setShowContainerInfoValidation] = useState(false);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
     if (field === 'namespace') {
       setNamespace(value);
     }
-    // 当容器数据发生变化时，重置容器验证状态
+    // Reset container validation state when container data changes
     if (field === 'containers') {
       setShowContainerInfoValidation(false);
     }
@@ -53,23 +53,23 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
 
   const handleNext = () => {
     if (activeStep === 0) {
-      // 验证Basic Info表单必填项
+      // Validate Basic Info form required fields
       const hasEmptyFields = !data?.namespace || !data?.name || !(data?.replicas || 1);
       if (hasEmptyFields) {
         setShowBasicInfoValidation(true);
-        return; // 阻止继续到下一步
+        return; // Prevent continuing to next step
       }
     } else if (activeStep === 1) {
-      // 验证Container Info表单必填项
+      // Validate Container Info form required fields
       const containers = data?.containers || [];
       const hasContainers = containers.length > 0;
-      // 检查每个容器的必填项（name 和 image）
+      // Check required fields for each container (name and image)
       const allContainersValid = containers.length > 0 && containers.every((c: any) => c.name && c.image);
       const hasInit = containers.some((c: any) => c.type === 'init');
       const hasWork = containers.some((c: any) => c.type === 'work');
       if (!(hasInit && hasWork && allContainersValid)) {
         setShowContainerInfoValidation(true);
-        return; // 阻止继续到下一步
+        return; // Prevent continuing to next step
       }
     }
     setActiveStep((prevStep) => prevStep + 1);
@@ -83,7 +83,7 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
     setActiveStep(0);
     setData({});
     setShowBasicInfoValidation(false);
-    setShowContainerInfoValidation(false); // 添加这一行，重置容器验证状态
+    setShowContainerInfoValidation(false); // Add this line to reset container validation state
   };
 
   const getContainers = () => {
@@ -467,7 +467,7 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
           onChange={handleDataChange}
           configMaps={configMaps?.items || []}
           secrets={secrets?.items || []}
-          showValidation={showContainerInfoValidation} // 添加这一行
+          showValidation={showContainerInfoValidation} // Add this line
         />;
       case 2:
         return <StorageMountForm data={data} onChange={handleDataChange} configMaps={configMaps?.items || []} secrets={secrets?.items || []} />;
@@ -486,14 +486,14 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
       sx={{
         '& .MuiDrawer-paper': {
           width: '100%',
-          maxWidth: 900, // 最大宽度900px
+          maxWidth: 900, // Maximum width 900px
           top: '50px',
           height: 'calc(100% - 50px)',
           borderTopLeftRadius: '6px',
           borderBottomLeftRadius: '6px',
           padding: '20px',
           boxSizing: 'border-box',
-          overflowX: 'hidden', // 防止Drawer本身溢出
+          overflowX: 'hidden', // Prevent Drawer itself from overflowing
         },
       }}
     >
@@ -503,7 +503,7 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
           width: '100%',
           maxWidth: '100%',
           boxSizing: 'border-box',
-          overflowX: 'auto', // 内容区横向滚动
+          overflowX: 'auto', // Content area horizontal scrolling
         }}
       >
         <Box sx={{ marginBottom: '24px' }}>

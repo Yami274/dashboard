@@ -31,6 +31,14 @@ interface TableCardProps<T> {
   deleteButtonLabel?: string;
   noTableHeader?: boolean;
   noPagination?: boolean;
+  // New: Support useProTable Hook state
+  pagination?: {
+    current: number;
+    pageSize: number;
+    total: number;
+  };
+  onPaginationChange?: (page: number, pageSize: number) => void;
+  loading?: boolean;
 }
 
 export function TableCard<T>({
@@ -46,26 +54,50 @@ export function TableCard<T>({
   onDeleteClick,
   detailButtonLabel,
   deleteButtonLabel,
-  specialHandling = false, // 新增的props用于特殊处理
-  specialBtnHandling = false, // 新增的props用于按钮特殊处理
+  specialHandling = false, // New props for special handling
+  specialBtnHandling = false, // New props for button special handling
   noTableHeader=false,
   noPagination=false,
+  // New: Support useProTable Hook state
+  pagination,
+  onPaginationChange,
+  loading = false,
 }: TableCardProps<T>) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  // Compatible with old version: if pagination is not passed, use internal state
+  const [internalPage, setInternalPage] = React.useState(0);
+  const [internalRowsPerPage, setInternalRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
-    setPage(newPage);
+    if (onPaginationChange && pagination) {
+      // Use useProTable Hook pagination
+      onPaginationChange(newPage + 1, pagination.pageSize);
+    } else {
+      // Use internal state
+      setInternalPage(newPage);
+    }
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    const newPageSize = parseInt(event.target.value, 10);
+    if (onPaginationChange && pagination) {
+      // Use useProTable Hook pagination
+      onPaginationChange(1, newPageSize);
+    } else {
+      // Use internal state
+      setInternalRowsPerPage(newPageSize);
+      setInternalPage(0);
+    }
   };
 
+  // Determine current pagination state
+  const currentPage = pagination ? pagination.current - 1 : internalPage;
+  const currentPageSize = pagination ? pagination.pageSize : internalRowsPerPage;
+  const total = pagination ? pagination.total : (data?.length || 0);
+
   let paginatedData = data;
-  if (!noPagination) {
-    paginatedData = data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  if (!noPagination && !pagination) {
+    // Only perform client-side pagination when not using useProTable Hook
+    paginatedData = data?.slice(currentPage * currentPageSize, currentPage * currentPageSize + currentPageSize);
   }
 
   return (
@@ -136,9 +168,9 @@ export function TableCard<T>({
         <TablePagination
           rowsPerPageOptions={[10, 25, 50]}
           component="div"
-          count={data?.length || 0}
-          rowsPerPage={rowsPerPage}
-          page={page}
+          count={total}
+          rowsPerPage={currentPageSize}
+          page={currentPage}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
