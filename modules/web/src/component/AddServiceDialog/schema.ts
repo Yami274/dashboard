@@ -92,7 +92,7 @@ export const addServiceSchema: FormSchema = {
       ],
     },
 
-    // —— ClusterIP & NodePort 共用：Ports 列表 ——
+   
     {
       name: 'ports',
       label: 'Ports',

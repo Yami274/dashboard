@@ -106,7 +106,7 @@ export default function ClusterrolesPage() {
       <AddClusterRoleDialog
         open={addDialogOpen}
         onClose={handleAddDialogClose}
-        // onSubmit={handleSubmit}
+       
       />
       {ConfirmDialogComponent}
     </Box>

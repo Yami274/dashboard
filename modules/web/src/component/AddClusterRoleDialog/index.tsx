@@ -284,8 +284,7 @@ import Button from '@mui/material/Button';
 import FormView from '@/components/FormView';
 import { addClusterRoleSchema } from './schema';  
 
-// import { toClusterRole } from './mapper';      
-// import { createClusterRole } from '@/api/clusterRole';
+
 
 type Props = {
   open: boolean;
@@ -297,8 +296,7 @@ export default function AddClusterRoleDialog({ open, onClose, onSuccess }: Props
   const formId = 'add-cluster-role-form';
 
   const handleSubmit = async (values: any) => {
-    // const { body } = toClusterRole(values);
-    // await createClusterRole(body);
+
     onSuccess?.();
     onClose();
   };

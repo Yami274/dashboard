@@ -41,5 +41,5 @@ export function deleteDeviceModel(namespace: string, name: string) {
 export async function listDeviceModels(namespace?: string): Promise<DeviceModelList> {
   const url = namespace ? `/devicemodel/${namespace}` : 'devicemodel';
   const res = await request<DeviceModelList>(url, { method: 'GET' });
-  return res.data; // 关键：只返回 data
+  return res.data;
 }

@@ -32,7 +32,7 @@ export const addEdgeAppSchema: FormSchema = {
       grid: { md: 12 },
     },
 
-    // workloadTemplate: 数组；每个 item 只有一个 textarea：manifests yaml
+    // workloadTemplate
     {
       name: 'workloadTemplate',
       label: '', 
@@ -52,7 +52,7 @@ export const addEdgeAppSchema: FormSchema = {
       grid: { md: 12 },
     },
 
-    // targetNodeGroups: 数组；每个 item 里有一个 select + 一个 textarea
+    // targetNodeGroups
     {
       name: 'targetNodeGroups',
       label: '', 

@@ -22,16 +22,16 @@ export interface FieldOption { label: string; value: string | number; disabled?:
 
 export interface FieldSchema {
   name: string;
-  label: string;                 // i18n key 或直写
+  label: string;                
   type: FieldType;
   placeholder?: string;
   helperText?: string;
   defaultValue?: any;
   rules?: Rule[];
   options?:
-    | { label: string; value: any }[]                                  // 1) 静态选项
-    | (() => Promise<{ label: string; value: any }[]>)                // 2) 无参异步
-    | ((form: any, values: Record<string, any>) =>                    // 3) 带 form/values 的异步
+    | { label: string; value: any }[]                               
+    | (() => Promise<{ label: string; value: any }[]>)              
+    | ((form: any, values: Record<string, any>) =>                
         Promise<{ label: string; value: any }[]>);
   fullWidth?: boolean;
   grid?: { xs?: number; sm?: number; md?: number; lg?: number };
@@ -44,11 +44,8 @@ export interface FieldSchema {
 
   rows?: number;
 
-  /** 对于 type=array：删除按钮是否与子项同一行显示 */
   inlineRemove?: boolean;
   
-
-  /** 可选：透传到组件的额外属性 */
   props?: Record<string, any>;
 
 }

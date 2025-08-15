@@ -3,9 +3,9 @@ import { listNamespaces } from '@/api/namespace';
 import { listNodes } from '@/api/node';                        
 import { listDeviceModels } from '@/api/deviceModel';          
 
-// 「Add Devices」表单配置
+// 「Add Devices」
 export const addDeviceSchema: FormSchema = {
-  submitText: undefined,   // 交给 DialogActions 外部按钮
+  submitText: undefined,   
   resetText: undefined,
   fields: [
     {
@@ -22,10 +22,10 @@ export const addDeviceSchema: FormSchema = {
       type: 'select',
       rules: [{ type: 'required', message: 'Miss device type' }],
       grid: { md: 12 },
-      // 拉取设备模型
+      
       options: async () => {
-        const res = await listDeviceModels(/* 可传 namespace: values?.namespace */);
-        // 适配接口结构，保证返回 [{label, value}]
+        const res = await listDeviceModels(/*  namespace: values?.namespace */);
+        
         return (res?.items ?? []).map((m: any) => ({
           label: m?.metadata?.name,
           value: m?.metadata?.name,
@@ -36,7 +36,7 @@ export const addDeviceSchema: FormSchema = {
     {
       name: 'protocol',
       label: 'Protocol',
-      type: 'text',     // 或者改成 select
+      type: 'text',     // or select
       grid: { md: 12 },
     },
 
@@ -63,7 +63,7 @@ export const addDeviceSchema: FormSchema = {
       rows: 6,
     },
 
-    //  Attributes 表格 
+    //  Attributes 
         {
       name: 'attributes',
       label: '',

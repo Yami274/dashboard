@@ -1,4 +1,4 @@
-import type { ClusterRoleBinding } from '@/types/clusterRoleBinding'; // 没有用 any
+import type { ClusterRoleBinding } from '@/types/clusterRoleBinding';
 
 
 export function toClusterRoleBinding(values: any) {
@@ -13,8 +13,8 @@ export function toClusterRoleBinding(values: any) {
   const subjects = (values?.subjects ?? []).map((s: any) => ({
     kind: s?.kind,
     name: s?.name,
-    namespace: s?.namespace, // 带下拉
-    apiGroup: s?.apiGroup,   // 可选
+    namespace: s?.namespace, 
+    apiGroup: s?.apiGroup,   
   }));
 
   const body: ClusterRoleBinding | any = {

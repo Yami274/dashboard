@@ -15,7 +15,7 @@ export const addClusterRoleSchema: FormSchema = {
       grid: { md: 12 },
     },
 
-    // Rules （数组）
+    // Rules 
     {
       name: 'rules',
       label: 'Rules',
@@ -55,7 +55,7 @@ export const addClusterRoleSchema: FormSchema = {
       ],
     },
 
-    // Match Labels（数组，按钮文案改名）
+    // Match Labels
     {
       name: 'matchLabels',
       label: 'ClusterRole Selectors',

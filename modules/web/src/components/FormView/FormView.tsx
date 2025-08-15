@@ -8,7 +8,7 @@ import SwitchField from './fields/SwitchField';
 import ArrayField from './fields/ArrayField';
 import RadioField from './fields/RadioField';
 
-// 注册表：字符串 → 组件函数
+
 const registry: Record<string, (p: any) => JSX.Element> = {
   text: (p) => <InputField {...p} />,
   password: (p) => <InputField {...p} />,
@@ -21,12 +21,12 @@ const registry: Record<string, (p: any) => JSX.Element> = {
   radio: (p) => <RadioField {...p} />, 
 };
 
-// 通过注册表取组件再渲染（⚠️ 不要用 <{field.type} />）
+
 function renderField(field: FieldSchema, control: any, values: any) {
   if (field.visibleWhen && !field.visibleWhen(values)) return null;
   const Comp = registry[field.type];
 
-  // 临时保护+定位
+
   if (typeof Comp !== 'function') {
     console.error('Bad field component:', field.type, Comp);
     return null;
@@ -47,14 +47,14 @@ export default function FormView({
   onSubmit,
   initialValues,
   submitting,
-  formId,          // 新增
-  hideActions,     // 新增
+  formId,         
+  hideActions,  
 }: {
   schema: FormSchema;
   onSubmit: (values: any) => Promise<void> | void;
   initialValues?: Record<string, any>;
   submitting?: boolean;
-  formId?: string;       // 新增
+  formId?: string;   
   hideActions?: boolean; // 新增
 
   
@@ -87,23 +87,7 @@ export default function FormView({
         </Stack>
       )}
 
-      {/* {showActions && (
-        <Stack direction="row" justifyContent="flex-end" spacing={1} mt={2}>
-          {schema.resetText && (
-            <Button
-              type="button"                              // ✅ 用 button，避免原生 reset
-              onClick={() => reset(initialValues ?? {})} // ✅ 重置到初始值
-            >
-              {schema.resetText}
-            </Button>
-          )}
-          {schema.submitText && (
-            <Button type="submit" disabled={submitting}>
-              {schema.submitText}
-            </Button>
-          )}
-        </Stack>
-      )} */}
+
 
 
     </form>

@@ -1,4 +1,4 @@
-// src/pages/NodePage.js
+
 'use client';
 
 import React, { useState } from 'react';

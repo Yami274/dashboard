@@ -13,7 +13,7 @@ export function toService(values: any): { ns: string; body: any } {
   const ns = values?.namespace || '';
   const type = values?.serviceType; // 'ClusterIP' | 'NodePort' | 'Headless'
 
-  // labels/annotations/selectors 转对象
+  // labels/annotations/selectors 
   const kv = (arr?: Array<{ key: string; value: string }>) =>
     (arr ?? []).reduce((acc, it) => {
       if (it?.key) acc[it.key] = it?.value ?? '';

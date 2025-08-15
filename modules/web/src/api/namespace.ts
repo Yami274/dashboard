@@ -8,7 +8,7 @@ export function useListNamespaces() {
   });
 }
 
-// 新增：给 schema 的 options() 用的“非 Hook”方法
+
 export async function listNamespaces() {
   const res = await request<NamespaceList>('/namespace', { method: 'GET' });
   return res;

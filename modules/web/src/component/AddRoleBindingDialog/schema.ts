@@ -32,7 +32,7 @@ export const addRoleBindingSchema: FormSchema = {
       rules: [{ type: 'required', message: 'Miss name' }],
     },
 
-    // RoleRef：一行 3 个输入
+    // RoleRef
     {
       name: 'roleRefKind',
       label: 'Kind *',
@@ -60,7 +60,7 @@ export const addRoleBindingSchema: FormSchema = {
       defaultValue: ' ',
     },
 
-    // Subjects：数组
+    // Subjects
     {
       name: 'subjects',
       label: 'Subjects',

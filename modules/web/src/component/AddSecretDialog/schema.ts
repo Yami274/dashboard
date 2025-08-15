@@ -27,7 +27,7 @@ export const secretSchema: FormSchema = {
   submitText: 'Save',
   resetText: 'Reset',
   fields: [
-    // Namespace 下拉
+    // Namespace 
     {
       name: 'namespace',
       label: 'Namespace *',
@@ -43,16 +43,7 @@ export const secretSchema: FormSchema = {
         }));
       },
 
-      // options: async () => {
-      //   try {
-      //     const res = await listNamespaces();
-      //     const items = (res?.data?.items ?? []) as any[];
-      //     return items.map(n => ({ label: n?.metadata?.name, value: n?.metadata?.name }));
-      //   } catch (e) {
-      //     console.error('load namespaces failed', e);
-      //     return []; // 兜底为空数组，弹窗继续渲染
-      //   }
-      // },
+  
     },
 
     // Name
@@ -64,7 +55,7 @@ export const secretSchema: FormSchema = {
       grid: { md: 6 },
     },
 
-    // Secret 类型（单选）
+    // Secret 
     {
       name: 'type',
       label: '',
@@ -77,7 +68,7 @@ export const secretSchema: FormSchema = {
       grid: { md: 12 },
     },
 
-    // Docker 专属字段
+    // Docker 
     {
       name: 'dockerServer',
       label: 'Docker server *',
@@ -103,7 +94,7 @@ export const secretSchema: FormSchema = {
       visibleWhen: (v) => v.type === 'docker',
     },
 
-    // Opaque 专属字段
+    // Opaque
     {
       name: 'data',
       label: 'Data items（Base64）',

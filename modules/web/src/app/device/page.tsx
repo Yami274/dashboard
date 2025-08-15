@@ -119,7 +119,7 @@ export default function DevicesPage() {
       <AddDeviceDialog
         open={isAddDeviceDialogOpen}
         onClose={handleCloseAddDeviceDialog}
-        // onSubmit={handleSubmit}
+     
       />
       {ConfirmDialogComponent}
     </Box>

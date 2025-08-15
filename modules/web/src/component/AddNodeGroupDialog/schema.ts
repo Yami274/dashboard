@@ -43,11 +43,11 @@
 // };
 
 
-// modules/web/src/component/AddNodeGroupDialog/schema.ts
+
 import type { FormSchema } from '@/components/FormView';
 
 export const addNodeGroupSchema: FormSchema = {
-  // 不要写 submitText / resetText，避免 FormView 自带按钮
+
   fields: [
     {
       name: 'name',

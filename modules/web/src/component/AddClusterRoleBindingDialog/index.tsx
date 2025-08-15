@@ -195,7 +195,7 @@ import Button from '@mui/material/Button';
 import FormView from '@/components/FormView';
 import { addClusterRoleBindingSchema } from './schema';
 import { toClusterRoleBinding } from './mapper';
-import { createClusterRoleBinding } from '@/api/clusterRoleBinding'; // 已有的 API
+import { createClusterRoleBinding } from '@/api/clusterRoleBinding'; 
 
 type Props = {
   open: boolean;

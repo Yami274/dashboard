@@ -197,13 +197,13 @@ export default function NodeGroupPage() {
           />
         </Box>
 
-        {/* YAML 查看弹窗 */}
+       
         <YAMLViewerDialog open={openYamlDialog} onClose={() => setOpenYamlDialog(false)} content={selectedYaml} />
 
         <AddNodegroupDialog
         open={openAddNodeGroupDialog}
         onClose={() => setOpenAddNodeGroupDialog(false)}
-        onCreated={() => mutate()}         // 新增成功后刷新列表
+        onCreated={() => mutate()}      
         />
 
         {ConfirmDialogComponent}

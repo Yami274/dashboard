@@ -29,7 +29,7 @@ export const configmapSchema: FormSchema = {
   submitText: 'Save',
   resetText: 'Reset',
   fields: [
-    // 命名空间（下拉）
+   
     {
       name: 'namespace',
       label: 'Namespace',
@@ -39,7 +39,7 @@ export const configmapSchema: FormSchema = {
      
       options: async () => {
         const res = await listNamespaces();
-        const items = res.data?.items ?? []; // 从 data 里取
+        const items = res.data?.items ?? [];
         return items.map((n: any) => ({
           label: n.metadata?.name,
           value: n.metadata?.name,
@@ -48,7 +48,7 @@ export const configmapSchema: FormSchema = {
     
     },
 
-    // 名称
+
     {
       name: 'name',
       label: 'Name *',
@@ -57,7 +57,7 @@ export const configmapSchema: FormSchema = {
       grid: { md: 6 },
     },
 
-    // Labels 键值对
+    // Labels 
     {
       name: 'labels',
       label: 'Labels',
@@ -70,7 +70,7 @@ export const configmapSchema: FormSchema = {
       grid: { md: 12 },
     },
 
-    // Data 键值对
+    // Data 
     {
       name: 'data',
       label: 'Data',

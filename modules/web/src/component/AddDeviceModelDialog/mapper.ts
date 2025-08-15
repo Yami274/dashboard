@@ -48,7 +48,7 @@ function toPropertyType(t: string) {
 export function toDeviceModel(values: any): { ns: string; body: DeviceModel } {
   const ns = values.namespace;
 
-  //  把 attributes 从表单值映射到 spec.properties
+
   const attrList: Array<{ name: string; type: any }> = Array.isArray(values.attributes)
     ? values.attributes
     : [];
@@ -61,7 +61,7 @@ export function toDeviceModel(values: any): { ns: string; body: DeviceModel } {
      
     }));
 
-  //  组装 DeviceModel 对象
+
   const body: DeviceModel = {
     apiVersion: 'devices.kubeedge.io/v1alpha2',
     kind: 'DeviceModel',

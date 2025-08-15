@@ -312,7 +312,7 @@ type Props = {
 
 export default function AddDeviceDialog({ open, onClose, onCreated }: Props) {
   const handleSubmit = async (values: any) => {
-    // 把 UI 值转成后端需要的 Spec
+    
     const { ns, body } = toDevice(values);
     await createDevice(ns, body);
     onCreated?.();
@@ -326,7 +326,7 @@ export default function AddDeviceDialog({ open, onClose, onCreated }: Props) {
         <FormView
           schema={{ ...addDeviceSchema, submitText: undefined, resetText: undefined }} 
           formId="device-form"
-          initialValues={{ attributes: [] }}    // 数组字段给一个安全默认值
+          initialValues={{ attributes: [] }}  
           onSubmit={handleSubmit}
         />
       </DialogContent>

@@ -178,7 +178,7 @@ type Props = {
   open: boolean;
   onClose: () => void;
   initial?: Record<string, any>;
-  // 若需要提交到后端可在外层传入这个回调，内部 submit 后调用
+
   onSubmit?: (values: any) => void | Promise<void>;
   onCreated?: () => void;
 };
@@ -193,13 +193,12 @@ export default function AddNodeGroupDialog({
   const formId = 'addNodeGroupForm';
 
   const handleSubmit = async (values: any) => {
-    // 如果外部传了 onSubmit，则交由外部处理；否则仅回调 onCreated并关闭
+
     if (onSubmit) {
       await onSubmit(values);
     }
     onCreated?.();
-    // 按你的页面逻辑，这里通常保留关闭，也可以改成不关
-    // onClose();
+
   };
 
   return (
@@ -208,7 +207,7 @@ export default function AddNodeGroupDialog({
 
       <DialogContent
         dividers
-        // 保险隐藏 FormView 内置按钮
+
         sx={{ '& .fv-actions': { display: 'none !important' } }}
       >
         <Box>
@@ -224,7 +223,7 @@ export default function AddNodeGroupDialog({
         </Box>
       </DialogContent>
 
-      {/* 只保留这一排按钮 */}
+ 
       <DialogActions>
         <Button onClick={onClose}>CANCEL</Button>
         <Button type="submit" form={formId} variant="contained">

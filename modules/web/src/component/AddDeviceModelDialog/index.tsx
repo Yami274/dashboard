@@ -205,13 +205,13 @@ import { deviceModelSchema } from './schema';
 import { toDeviceModel } from './mapper';
 import { createDeviceModel } from '@/api/deviceModel';
 import { useAlert } from '@/hook/useAlert';
-import { useNamespace } from '@/hook/useNamespace'; // 若你有命名空间选择器
+import { useNamespace } from '@/hook/useNamespace'; 
 
 type Props = {
   open: boolean;
   onClose: () => void;
   initial?: Record<string, any>;
-  onCreated?: () => void; // 成功后刷新列表
+  onCreated?: () => void; 
 };
 
 export default function AddDeviceModelDialog({ open, onClose, initial, onCreated }: Props) {
@@ -221,9 +221,9 @@ export default function AddDeviceModelDialog({ open, onClose, initial, onCreated
   const handleSubmit = async (values: any) => {
     try {
       const { ns, body } = toDeviceModel(values);
-      await createDeviceModel(ns, body);        // 对接 API
+      await createDeviceModel(ns, body);       
       success('创建成功');
-      onCreated?.();                            // 刷新列表
+      onCreated?.();                        
       onClose();
     } catch (e: any) {
       console.error(e);
@@ -231,7 +231,7 @@ export default function AddDeviceModelDialog({ open, onClose, initial, onCreated
     }
   };
 
-  // 初始值
+
   const initValues = { namespace: currentNs || '', ...initial };
 
   return (

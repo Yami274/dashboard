@@ -174,7 +174,7 @@ export default function AddRuleEndpointDialog({ open, onClose, onSubmit }: Props
         <FormView
           formId={formId}
           schema={addRuleEndpointSchema}
-          initialValues={{}}            // 这里没有数组字段，空对象即可
+          initialValues={{}}           
           onSubmit={handleSubmit}
         />
       </DialogContent>

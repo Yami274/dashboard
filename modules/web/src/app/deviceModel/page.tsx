@@ -111,7 +111,7 @@ export default function DeviceModelPage() {
       <AddDeviceModelDialog
         open={addDialogOpen}
         onClose={handleAddDialogClose}
-        // onSubmit={handleAddDeviceModel}
+     
       />
       <DeviceModelDetailDialog
         open={detailDialogOpen}

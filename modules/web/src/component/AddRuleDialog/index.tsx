@@ -233,13 +233,13 @@ type Props = {
 
 export default function AddRuleDialog({ open, onClose, onSubmit }: Props) {
   const handleSubmit = async (values: any) => {
-  // 通过 mapper 把表单值转成 Rule
+ 
   const { ns, body } = toRule(values);
 
-  // 调用创建接口
+
   await createRule(ns, body);
 
-  // 关闭弹窗 / 刷新列表等
+
   onClose?.();
 };
 

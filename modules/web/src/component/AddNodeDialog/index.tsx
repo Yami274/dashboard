@@ -201,7 +201,7 @@
 // }
 
 
-// modules/web/src/component/AddNodeDialog/index.tsx
+
 'use client';
 
 import { useState } from 'react';
@@ -227,7 +227,7 @@ type Props = {
 export default function AddNodeDialog({ open, onClose, initial }: Props) {
   const [command, setCommand] = useState<string>(initial?.command ?? '');
 
-  // 点击 SUBMIT 时生成命令到文本框
+
   const handleSubmit = (values: any) => {
     const cmd = [
       'keadm join',
@@ -239,7 +239,7 @@ export default function AddNodeDialog({ open, onClose, initial }: Props) {
     setCommand(cmd);
   };
 
-  // 唯一的表单 id，供底部 SUBMIT 关联
+
   const formId = 'addNodeForm';
 
   return (
@@ -248,10 +248,10 @@ export default function AddNodeDialog({ open, onClose, initial }: Props) {
 
       <DialogContent
         dividers
-        // 保险起见，隐藏 FormView 内置按钮（若组件里 className 为 .fv-actions）
+      
         sx={{ '& .fv-actions': { display: 'none !important' } }}
       >
-        {/* 传入 hideActions，并用 as any 兜底不同版本的属性名 */}
+        
         <Box>
           <FormView
             schema={addNodeSchema}
@@ -264,7 +264,7 @@ export default function AddNodeDialog({ open, onClose, initial }: Props) {
           />
         </Box>
 
-        {/* 额外的命令输出区 */}
+       
         <Stack spacing={1} mt={2}>
           <TextField
             label="Command"
@@ -278,7 +278,7 @@ export default function AddNodeDialog({ open, onClose, initial }: Props) {
         </Stack>
       </DialogContent>
 
-      {/* 只保留这一排按钮 */}
+  
       <DialogActions>
         <Button onClick={onClose}>CANCEL</Button>
         <Button type="submit" form={formId} variant="contained">

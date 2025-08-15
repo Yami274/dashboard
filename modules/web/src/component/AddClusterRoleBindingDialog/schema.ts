@@ -1,7 +1,7 @@
 import type { FormSchema } from '@/components/FormView';
 import { listNamespaces } from '@/api/namespace';
 
-// 供 Subjects 的 namespace 下拉
+
 async function nsOptions() {
   const res = await listNamespaces();
   const items = (res?.data?.items ?? []) as any[];
@@ -12,7 +12,7 @@ async function nsOptions() {
 }
 
 export const addClusterRoleBindingSchema: FormSchema = {
-  // 不设置 submitText/ resetText，避免 FormView 内部自己渲染按钮
+
   fields: [
     // Name 
     {
@@ -24,12 +24,12 @@ export const addClusterRoleBindingSchema: FormSchema = {
       grid: { md: 12 },
     },
 
-    // RoleRef 区块：Kind / Name / ApiGroup
+    // RoleRef 
     {
       name: 'roleRefKind',
       label: 'Kind *',
       type: 'select',
-      // ClusterRoleBinding 的 roleRef.kind 通常就是 "ClusterRole"
+      
       options: [{ label: 'ClusterRole', value: 'ClusterRole' }],
       defaultValue: 'ClusterRole',
       rules: [{ type: 'required', message: 'Missing roleRef kind' }],
@@ -46,12 +46,12 @@ export const addClusterRoleBindingSchema: FormSchema = {
       name: 'roleRefApiGroup',
       label: 'ApiGroup',
       type: 'text',
-      // rbac 的 apigroup
+      // rbac 
       defaultValue: 'rbac.authorization.k8s.io',
       grid: { xs: 12, sm: 4, md: 5 },
     },
 
-    // Subjects（数组）
+    // Subjects
     {
       name: 'subjects',
       label: 'Subjects',
@@ -79,7 +79,7 @@ export const addClusterRoleBindingSchema: FormSchema = {
           grid: { xs: 12, sm: 6, md: 4 },
         },
         {
-          // 有下拉：Namespace
+          // Namespace
           name: 'namespace',
           label: 'Namespace *',
           type: 'select',

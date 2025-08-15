@@ -3,7 +3,7 @@ import type { Rule } from '@/types/rule';
 export function toRule(values: any): { ns: string; body: Rule } {
   const ns = values?.namespace || '';
 
-    // 组装 sourceResource / targetResource 
+    //  sourceResource / targetResource 
   const srcRes: Record<string, string> = {};
   if (values.sourceResource) srcRes.resource = String(values.sourceResource);
 
