@@ -35,3 +35,10 @@ export function deleteRuleEndpoint(namespace: string, name: string) {
     method: 'DELETE',
   });
 }
+
+// 新增：给 schema/其它非组件场景用的“非 Hook”函数
+export async function listRuleEndpoints(namespace?: string) {
+  // 按后端路由调整路径；没有命名空间就用 '/ruleEndpoint'
+  const url = namespace ? `/ruleEndpoint/${namespace}` : '/ruleEndpoint';
+  return request<RuleEndpointList>(url, { method: 'GET' });
+}

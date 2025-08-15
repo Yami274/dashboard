@@ -1,160 +1,236 @@
-import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, TextField, MenuItem, Button, IconButton, Box, Typography, FormControl, InputLabel } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import { Select } from '@mui/material';
-import { useListNodes } from '@/api/node';
-import { NodeGroup } from '@/types/nodeGroup';
-import { useAlert } from '@/hook/useAlert';
+// import React, { useState } from 'react';
+// import { Dialog, DialogTitle, DialogContent, TextField, MenuItem, Button, IconButton, Box, Typography, FormControl, InputLabel } from '@mui/material';
+// import AddIcon from '@mui/icons-material/Add';
+// import RemoveIcon from '@mui/icons-material/Remove';
+// import { Select } from '@mui/material';
+// import { useListNodes } from '@/api/node';
+// import { NodeGroup } from '@/types/nodeGroup';
+// import { useAlert } from '@/hook/useAlert';
 
-interface AddNodeGroupDialogProps {
-  open?: boolean;
-  onClose?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onSubmit?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, data: NodeGroup) => void;
-}
+// interface AddNodeGroupDialogProps {
+//   open?: boolean;
+//   onClose?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+//   onSubmit?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, data: NodeGroup) => void;
+// }
 
-const AddNodeGroupDialog = ({ open, onClose, onSubmit }: AddNodeGroupDialogProps) => {
-  const [name, setName] = useState('');
-  const [nodes, setNodes] = useState([]);
-  const [matchLabels, setMatchLabels] = useState<Record<string, string>[]>([]);
-  const { data } = useListNodes();
-  const { setErrorMessage } = useAlert();
+// const AddNodeGroupDialog = ({ open, onClose, onSubmit }: AddNodeGroupDialogProps) => {
+//   const [name, setName] = useState('');
+//   const [nodes, setNodes] = useState([]);
+//   const [matchLabels, setMatchLabels] = useState<Record<string, string>[]>([]);
+//   const { data } = useListNodes();
+//   const { setErrorMessage } = useAlert();
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setName(event?.target?.value);
+//   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setName(event?.target?.value);
 
-  const handleNodesChange = (event: any) => setNodes(event.target.value);
+//   const handleNodesChange = (event: any) => setNodes(event.target.value);
 
-  const handleMatchLabelChange = (index: number, field: string, value: string) => {
-    const newMatchLabels = [...matchLabels];
-    newMatchLabels[index][field] = value;
-    setMatchLabels(newMatchLabels);
-  };
+//   const handleMatchLabelChange = (index: number, field: string, value: string) => {
+//     const newMatchLabels = [...matchLabels];
+//     newMatchLabels[index][field] = value;
+//     setMatchLabels(newMatchLabels);
+//   };
 
-  const handleAddMatchLabel = () => {
-    setMatchLabels([...matchLabels, { key: '', value: '' }]);
-  };
+//   const handleAddMatchLabel = () => {
+//     setMatchLabels([...matchLabels, { key: '', value: '' }]);
+//   };
 
-  const handleRemoveMatchLabel = (index: number) => {
-    const newMatchLabels = matchLabels.filter((_, i) => i !== index);
-    setMatchLabels(newMatchLabels);
-  };
+//   const handleRemoveMatchLabel = (index: number) => {
+//     const newMatchLabels = matchLabels.filter((_, i) => i !== index);
+//     setMatchLabels(newMatchLabels);
+//   };
 
-  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const labels: Record<string, string> = {};
-    matchLabels?.forEach((matchLabel) => {
-      labels[matchLabel.key] = matchLabel.value;
-    });
+//   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+//     const labels: Record<string, string> = {};
+//     matchLabels?.forEach((matchLabel) => {
+//       labels[matchLabel.key] = matchLabel.value;
+//     });
 
-    try {
-      await onSubmit?.(event, {
-        apiVersion: 'apps.kubeedge.io/v1alpha1',
-        kind: 'NodeGroup',
-        metadata: {
-          name,
-        },
-        spec: {
-          nodes,
-          matchLabels: labels,
-        },
-      });
-      handleClose(event);
-    } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to create NodeGroup');
-    }
-  };
+//     try {
+//       await onSubmit?.(event, {
+//         apiVersion: 'apps.kubeedge.io/v1alpha1',
+//         kind: 'NodeGroup',
+//         metadata: {
+//           name,
+//         },
+//         spec: {
+//           nodes,
+//           matchLabels: labels,
+//         },
+//       });
+//       handleClose(event);
+//     } catch (error: any) {
+//       setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to create NodeGroup');
+//     }
+//   };
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setName('');
-    setNodes([]);
-    setMatchLabels([]);
-    onClose?.(event);
-  }
+//   const handleClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+//     setName('');
+//     setNodes([]);
+//     setMatchLabels([]);
+//     onClose?.(event);
+//   }
 
-  return (
-    <Dialog open={!!open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Add Nodegroup</DialogTitle>
-      <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <TextField
-            label="Name"
-            placeholder="name"
-            variant="outlined"
-            value={name}
-            onChange={handleNameChange}
-            required
-            margin="dense"
-            helperText={!name && 'Miss name'}
-          />
-          <FormControl fullWidth>
-            <InputLabel id="nodes-select-label">Nodes</InputLabel>
-            <Select
-              multiple
-              labelId="nodes-select-label"
-              value={nodes}
-              onChange={handleNodesChange}
-              renderValue={(selected) => selected.join(', ')}
-              required
-              label="Nodes"
-              placeholder="nodes"
-              sx={{ minWidth: 300 }}
-            >
-              {data?.items?.map((node) => (
-                <MenuItem key={node?.metadata?.uid} value={node?.metadata?.name || ''}>
-                  {node?.metadata?.name || ''}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Box>
-            <Typography variant="subtitle1" sx={{ marginBottom: '8px' }}>MatchLabels</Typography>
-            {matchLabels.map((matchLabel, index) => (
-              <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <TextField
-                  label="Key"
-                  placeholder="Please input key"
-                  variant="outlined"
-                  margin="dense"
-                  value={matchLabel.key}
-                  onChange={(e) => handleMatchLabelChange(index, 'key', e.target.value)}
-                  sx={{ flex: 1 }}
-                  required
-                  helperText={!matchLabel.key && 'Miss key'}
-                />
-                <TextField
-                  label="Value"
-                  placeholder="Please input value"
-                  variant="outlined"
-                  margin="dense"
-                  value={matchLabel.value}
-                  onChange={(e) => handleMatchLabelChange(index, 'value', e.target.value)}
-                  sx={{ flex: 1 }}
-                  required
-                  helperText={!matchLabel.value && 'Miss value'}
-                />
-                <IconButton
-                  onClick={() => handleRemoveMatchLabel(index)}
-                  sx={{ color: 'red' }}
-                >
-                  <RemoveIcon />
-                </IconButton>
-              </Box>
-            ))}
-            <Button
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={handleAddMatchLabel}
-            >
-              Add MatchLabels
-            </Button>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" onClick={handleSubmit}>Submit</Button>
-          </Box>
-        </Box>
-      </DialogContent>
-    </Dialog>
-  );
+//   return (
+//     <Dialog open={!!open} onClose={handleClose} maxWidth="sm" fullWidth>
+//       <DialogTitle>Add Nodegroup</DialogTitle>
+//       <DialogContent>
+//         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+//           <TextField
+//             label="Name"
+//             placeholder="name"
+//             variant="outlined"
+//             value={name}
+//             onChange={handleNameChange}
+//             required
+//             margin="dense"
+//             helperText={!name && 'Miss name'}
+//           />
+//           <FormControl fullWidth>
+//             <InputLabel id="nodes-select-label">Nodes</InputLabel>
+//             <Select
+//               multiple
+//               labelId="nodes-select-label"
+//               value={nodes}
+//               onChange={handleNodesChange}
+//               renderValue={(selected) => selected.join(', ')}
+//               required
+//               label="Nodes"
+//               placeholder="nodes"
+//               sx={{ minWidth: 300 }}
+//             >
+//               {data?.items?.map((node) => (
+//                 <MenuItem key={node?.metadata?.uid} value={node?.metadata?.name || ''}>
+//                   {node?.metadata?.name || ''}
+//                 </MenuItem>
+//               ))}
+//             </Select>
+//           </FormControl>
+//           <Box>
+//             <Typography variant="subtitle1" sx={{ marginBottom: '8px' }}>MatchLabels</Typography>
+//             {matchLabels.map((matchLabel, index) => (
+//               <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+//                 <TextField
+//                   label="Key"
+//                   placeholder="Please input key"
+//                   variant="outlined"
+//                   margin="dense"
+//                   value={matchLabel.key}
+//                   onChange={(e) => handleMatchLabelChange(index, 'key', e.target.value)}
+//                   sx={{ flex: 1 }}
+//                   required
+//                   helperText={!matchLabel.key && 'Miss key'}
+//                 />
+//                 <TextField
+//                   label="Value"
+//                   placeholder="Please input value"
+//                   variant="outlined"
+//                   margin="dense"
+//                   value={matchLabel.value}
+//                   onChange={(e) => handleMatchLabelChange(index, 'value', e.target.value)}
+//                   sx={{ flex: 1 }}
+//                   required
+//                   helperText={!matchLabel.value && 'Miss value'}
+//                 />
+//                 <IconButton
+//                   onClick={() => handleRemoveMatchLabel(index)}
+//                   sx={{ color: 'red' }}
+//                 >
+//                   <RemoveIcon />
+//                 </IconButton>
+//               </Box>
+//             ))}
+//             <Button
+//               variant="outlined"
+//               startIcon={<AddIcon />}
+//               onClick={handleAddMatchLabel}
+//             >
+//               Add MatchLabels
+//             </Button>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
+//             <Button onClick={handleClose}>Cancel</Button>
+//             <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+//           </Box>
+//         </Box>
+//       </DialogContent>
+//     </Dialog>
+//   );
+// };
+
+// export default AddNodeGroupDialog;
+
+
+// modules/web/src/component/AddNodeGroupDialog/index.tsx
+'use client';
+
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Box,
+} from '@mui/material';
+import FormView from '@/components/FormView';
+import { addNodeGroupSchema } from './schema';
+
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  initial?: Record<string, any>;
+  // 若需要提交到后端可在外层传入这个回调，内部 submit 后调用
+  onSubmit?: (values: any) => void | Promise<void>;
+  onCreated?: () => void;
 };
 
-export default AddNodeGroupDialog;
+export default function AddNodeGroupDialog({
+  open,
+  onClose,
+  initial,
+  onSubmit,
+  onCreated,
+}: Props) {
+  const formId = 'addNodeGroupForm';
+
+  const handleSubmit = async (values: any) => {
+    // 如果外部传了 onSubmit，则交由外部处理；否则仅回调 onCreated并关闭
+    if (onSubmit) {
+      await onSubmit(values);
+    }
+    onCreated?.();
+    // 按你的页面逻辑，这里通常保留关闭，也可以改成不关
+    // onClose();
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <DialogTitle>Add Nodegroup</DialogTitle>
+
+      <DialogContent
+        dividers
+        // 保险隐藏 FormView 内置按钮
+        sx={{ '& .fv-actions': { display: 'none !important' } }}
+      >
+        <Box>
+          <FormView
+            schema={addNodeGroupSchema}
+            initialValues={{ ...(initial || {}) }}
+            onSubmit={handleSubmit}
+            formId={formId}
+            {...({ hideActions: true } as any)}
+            {...({ showActions: false } as any)}
+            {...({ actions: false } as any)}
+          />
+        </Box>
+      </DialogContent>
+
+      {/* 只保留这一排按钮 */}
+      <DialogActions>
+        <Button onClick={onClose}>CANCEL</Button>
+        <Button type="submit" form={formId} variant="contained">
+          SUBMIT
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}

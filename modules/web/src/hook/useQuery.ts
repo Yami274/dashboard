@@ -13,6 +13,7 @@ export function useQuery<T>(key: string, url: string, opt?: UseQueryOptions<T>) 
     skip ? null : [key, config], 
     async ([key, opt]) => {
       const resp = await request(url, opt as AxiosRequestConfig<T>);
+
       return resp.data || resp;
     }
   );

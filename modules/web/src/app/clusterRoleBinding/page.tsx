@@ -37,7 +37,8 @@ export default function ClusterRoleBindingPage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   const handleAddClick = () => {
     setAddDialogOpen(true);
@@ -62,7 +63,7 @@ export default function ClusterRoleBindingPage() {
     setCurrentYamlContent(resp?.data);
     setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get ClusterRoleBinding');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get ClusterRoleBinding');
     }
   };
 
@@ -77,7 +78,7 @@ export default function ClusterRoleBindingPage() {
           await deleteClusterRoleBinding(row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete ClusterRoleBinding');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete ClusterRoleBinding');
         }
 
       },
@@ -106,7 +107,7 @@ export default function ClusterRoleBindingPage() {
         <AddClusterRoleBindingDialog
           open={addDialogOpen}
           onClose={handleAddDialogClose}
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
         />
         <YAMLViewerDialog
           open={yamlDialogOpen}

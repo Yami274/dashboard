@@ -41,7 +41,8 @@ export default function ConfigmapPage() {
   const { namespace } = useNamespace();
   const { data, mutate } = useListConfigMaps(namespace);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -61,7 +62,7 @@ export default function ConfigmapPage() {
       setSelectedConfigMap(resp?.data);
       setDetailDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get ConfigMap');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get ConfigMap');
     }
   };
 
@@ -70,10 +71,21 @@ export default function ConfigmapPage() {
     setSelectedConfigMap(null);
   };
 
+  // const handleSubmit = async (_: any, record: ConfigMap) => {
+  //   await createConfigMap(record?.metadata?.namespace || namespace || 'default', record);
+  //   mutate();
+  // }
   const handleSubmit = async (_: any, record: ConfigMap) => {
-    await createConfigMap(record?.metadata?.namespace || namespace || 'default', record);
-    mutate();
-  }
+    try {
+      await createConfigMap(record?.metadata?.namespace || namespace || 'default', record);
+      success('ConfigMap created');
+      setDialogOpen(false);
+      mutate();
+    } catch (e: any) {
+      error(e?.response?.data?.message || e?.message || 'Failed to create ConfigMap');
+    }
+  };
+
 
   const handleRefreshClick = () => {
     mutate();
@@ -88,7 +100,7 @@ export default function ConfigmapPage() {
           await deleteConfigMap(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete ConfigMap');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete ConfigMap');
         }
       },
       onCancel: () => {},
@@ -112,7 +124,8 @@ export default function ConfigmapPage() {
           specialHandling={false}
         />
       </Box>
-      <AddConfigmapDialog open={dialogOpen} onClose={handleCloseDialog} onSubmit={handleSubmit} />
+      <AddConfigmapDialog open={dialogOpen} onClose={handleCloseDialog} onSubmit={handleSubmit}  />  
+
       <ConfigmapDetailDialog open={detailDialogOpen} onClose={handleCloseDetailDialog} data={selectedConfigMap} />
       {ConfirmDialogComponent}
     </Box>

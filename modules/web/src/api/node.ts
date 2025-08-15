@@ -27,3 +27,15 @@ export function deleteNode(name: string) {
     method: 'DELETE',
   });
 }
+
+// export async function listNodes() {
+//   const res = await request<NodeList>('/namespace', { method: 'GET' });
+//   return res;
+// }
+
+export async function listNodes(namespace?: string): Promise<NodeList> {
+  const url = namespace ? `/node/${namespace}` : '/node'; // 建议统一带斜杠
+  const res = await request<NodeList>(url, { method: 'GET' });
+  return res.data; // 关键：返回 data，不返回 AxiosResponse
+}
+

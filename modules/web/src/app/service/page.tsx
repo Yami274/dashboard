@@ -37,7 +37,8 @@ export default function ServicePage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addServiceDialogOpen, setAddServiceDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   const handleAddClick = () => {
     setAddServiceDialogOpen(true);
@@ -53,7 +54,7 @@ export default function ServicePage() {
       setCurrentYamlContent(resp?.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get Service');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get Service');
     }
   };
 
@@ -79,7 +80,7 @@ export default function ServicePage() {
           await deleteService(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete Service');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete Service');
         }
       },
       onCancel: () => {},
@@ -110,7 +111,7 @@ export default function ServicePage() {
       <AddServiceDialog
         open={addServiceDialogOpen}
         onClose={handleAddServiceDialogClose}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
       />
       {ConfirmDialogComponent}
     </Box>

@@ -37,7 +37,8 @@ export default function RolesPage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addRoleDialogOpen, setAddRoleDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -57,7 +58,7 @@ export default function RolesPage() {
       setCurrentYamlContent(resp.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get Role');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get Role');
     }
   };
 
@@ -74,7 +75,7 @@ export default function RolesPage() {
           await deleteRole(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete Role');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete Role');
         }
       },
       onCancel: () => {},
@@ -114,7 +115,7 @@ export default function RolesPage() {
       <AddRoleDialog
         open={addRoleDialogOpen}
         onClose={handleAddRoleDialogClose}
-        onSubmit={handleOnSubmit}
+        // onSubmit={handleOnSubmit}
       />
       {ConfirmDialogComponent}
     </Box>

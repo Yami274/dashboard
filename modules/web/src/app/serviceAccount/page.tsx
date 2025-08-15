@@ -41,7 +41,8 @@ export default function ServiceAccountsPage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -61,7 +62,7 @@ export default function ServiceAccountsPage() {
       setCurrentYamlContent(resp.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get ServiceAccount');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get ServiceAccount');
     }
   };
 
@@ -78,7 +79,7 @@ export default function ServiceAccountsPage() {
           await deleteServiceAccount(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to create ServiceAccount');
+          Error(error?.response?.data?.message || error?.message || 'Failed to create ServiceAccount');
         }
       },
       onCancel: () => {},
@@ -118,7 +119,7 @@ export default function ServiceAccountsPage() {
       <AddServiceAccountDialog
         open={addDialogOpen}
         onClose={handleAddDialogClose}
-        onSubmit={handleAddFormSubmit}
+        // onSubmit={handleAddFormSubmit}
         />
       {ConfirmDialogComponent}
     </Box>

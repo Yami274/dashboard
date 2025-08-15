@@ -53,7 +53,8 @@ export default function RulePage() {
   const { namespace } = useNamespace();
   const { data, mutate } = useListRules(namespace);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -77,7 +78,7 @@ export default function RulePage() {
       setCurrentYamlContent(resp?.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get Rule');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get Rule');
     }
 
   }
@@ -104,7 +105,7 @@ export default function RulePage() {
           await deleteRule(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete Rule');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete Rule');
         }
       },
       onCancel: () => {},

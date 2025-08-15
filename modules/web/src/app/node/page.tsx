@@ -49,7 +49,8 @@ const columns: ColumnDefinition<Node>[] = [{
 export default function NodePage() {
   const { data, mutate } = useListNodes();
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   const [open, setOpen] = useState(false);
 
@@ -70,7 +71,7 @@ export default function NodePage() {
       setSelectedNode(resp?.data);
       setDetailDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get Node');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get Node');
     }
   };
 
@@ -88,7 +89,7 @@ export default function NodePage() {
           await deleteNode(row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete Node');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete Node');
         }
       },
       onCancel: () => {},

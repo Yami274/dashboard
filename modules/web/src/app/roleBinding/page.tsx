@@ -41,7 +41,8 @@ export default function RolebindingsPage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addRoleBindingDialogOpen, setAddRoleBindingDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -55,7 +56,7 @@ export default function RolebindingsPage() {
       setCurrentYamlContent(resp?.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get RoleBinding');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get RoleBinding');
     }
   };
 
@@ -76,7 +77,7 @@ export default function RolebindingsPage() {
           await deleteRoleBinding(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete RoleBinding');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete RoleBinding');
         }
       },
       onCancel: () => {},
@@ -106,7 +107,7 @@ export default function RolebindingsPage() {
       <AddRoleBindingDialog
         open={addRoleBindingDialogOpen}
         onClose={handleAddRoleBindingDialogClose}
-        onSubmit={handleOnSubmit}
+        // onSubmit={handleOnSubmit}
       />
       {ConfirmDialogComponent}
     </Box>

@@ -37,7 +37,9 @@ export default function DeviceModelPage() {
   const { namespace } = useNamespace();
   const { data, mutate } = useListDeviceModels();
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
+
 
   useEffect(() => {
     mutate();
@@ -57,7 +59,7 @@ export default function DeviceModelPage() {
       setSelectedDeviceModel(resp?.data);
       setDetailDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get DeviceModel');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get DeviceModel');
     }
   };
 
@@ -70,7 +72,7 @@ export default function DeviceModelPage() {
           await deleteDeviceModel(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete DeviceModel');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete DeviceModel');
         }
       },
       onCancel: () => {},
@@ -109,7 +111,7 @@ export default function DeviceModelPage() {
       <AddDeviceModelDialog
         open={addDialogOpen}
         onClose={handleAddDialogClose}
-        onSubmit={handleAddDeviceModel}
+        // onSubmit={handleAddDeviceModel}
       />
       <DeviceModelDetailDialog
         open={detailDialogOpen}

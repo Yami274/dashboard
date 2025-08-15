@@ -35,3 +35,9 @@ export function deleteSecret(namespace: string, name: string) {
     method: 'DELETE',
   });
 }
+
+//新增
+export async function listSecrets(namespace: string) {
+  return request<SecretList>(`/secret/${namespace}`, { method: 'GET' });
+}
+

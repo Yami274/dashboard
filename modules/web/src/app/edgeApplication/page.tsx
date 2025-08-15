@@ -42,7 +42,8 @@ export default function EdgeApplicationPage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -70,7 +71,7 @@ export default function EdgeApplicationPage() {
       setCurrentYamlContent(resp.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get EdgeApplication');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get EdgeApplication');
     }
   };
 
@@ -96,7 +97,7 @@ export default function EdgeApplicationPage() {
           await deleteEdgeApplication(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.message || error?.message || 'Failed to delete EdgeApplication');
+          Error(error?.response?.message || error?.message || 'Failed to delete EdgeApplication');
         }
       },
       onCancel: () => {},
@@ -128,7 +129,7 @@ export default function EdgeApplicationPage() {
       <AddEdgeApplicationDialog
         open={addDialogOpen}
         onClose={handleAddDialogClose}
-        onSubmit={handleAddEdgeApplication}
+        // onSubmit={handleAddEdgeApplication}
       />
       {ConfirmDialogComponent}
     </Box>

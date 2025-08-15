@@ -28,7 +28,8 @@ export default function CrdPage() {
   const { data, mutate } = useListCustomResourceDefinitions();
   const [ yamlDialogOpen, setYamlDialogOpen ] = React.useState(false);
   const [ currentYamlContent, setCurrentYamlContent ] = React.useState<any>(undefined);
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   const handleNameChange = (event: any) => {
     setName(event.target.value);
@@ -44,7 +45,7 @@ export default function CrdPage() {
       setCurrentYamlContent(resp?.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get CustomResourceDefinition');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get CustomResourceDefinition');
     }
   };
 

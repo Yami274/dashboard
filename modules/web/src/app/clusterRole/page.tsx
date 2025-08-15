@@ -31,7 +31,8 @@ export default function ClusterrolesPage() {
   const [currentYamlContent, setCurrentYamlContent] = useState<any>(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   const handleAddClick = () => {
     setAddDialogOpen(true);
@@ -47,7 +48,7 @@ export default function ClusterrolesPage() {
       setCurrentYamlContent(resp?.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get ClusterRole');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get ClusterRole');
     }
   };
 
@@ -73,7 +74,7 @@ export default function ClusterrolesPage() {
           await deleteClusterRole(row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete ClusterRole');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete ClusterRole');
         }
 
       },
@@ -105,7 +106,7 @@ export default function ClusterrolesPage() {
       <AddClusterRoleDialog
         open={addDialogOpen}
         onClose={handleAddDialogClose}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
       />
       {ConfirmDialogComponent}
     </Box>

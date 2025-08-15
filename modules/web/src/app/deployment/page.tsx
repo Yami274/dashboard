@@ -47,7 +47,8 @@ export default function DeploymentPage() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [currentDeployment, setCurrentDeployment] = useState<Deployment | null>(null);
   const { data: podData, mutate: podMutate } = useListPods(namespace);
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -65,7 +66,7 @@ export default function DeploymentPage() {
       setCurrentDeployment(resp?.data);
       setDetailOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get Deployment');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get Deployment');
     }
 
   };
@@ -83,7 +84,7 @@ export default function DeploymentPage() {
           await deleteDeployment(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete Deployment');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete Deployment');
         }
       },
       onCancel: () => {},

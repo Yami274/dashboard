@@ -1,3 +1,5 @@
+
+'use client';
 import React, { useEffect, useState } from 'react';
 import { Drawer, Box, Button, Stepper, Step, StepLabel } from '@mui/material';
 import BasicInfoForm from './DeploymentForms/BasicInfoForm';
@@ -23,7 +25,9 @@ interface DeploymentDrawerProps {
 export default function DeploymentDrawer({ open, onClose, onSubmit }: DeploymentDrawerProps) {
   const [namespace, setNamespace] = useState<any>('');
   const [activeStep, setActiveStep] = useState(0);
-  const { setErrorMessage } = useAlert();
+  // const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
   const [data, setData] = useState<any>({});
   const { data: configMaps, mutate: configMapMutate } = useListConfigMaps(namespace);
   const { data: secrets, mutate: secretMutate } = useListSecrets(namespace);
@@ -442,7 +446,7 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
       await onSubmit?.(event, payload);
       handleClose(event);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to create Deployment');
+      error(error?.response?.data?.message || error?.message || 'Failed to create Deployment');
     }
   };
 
@@ -536,3 +540,6 @@ export default function DeploymentDrawer({ open, onClose, onSubmit }: Deployment
     </Drawer>
   );
 }
+
+
+

@@ -37,7 +37,8 @@ export default function RuleEndpointPage() {
   const [currentYamlContent, setCurrentYamlContent] = React.useState<any>(null);
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -62,7 +63,7 @@ export default function RuleEndpointPage() {
       setCurrentYamlContent(resp?.data);
       setYamlDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get RuleEndpoint');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get RuleEndpoint');
     }
   };
 
@@ -79,7 +80,7 @@ export default function RuleEndpointPage() {
           await deleteRuleEndpoint(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete RuleEndpoint');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete RuleEndpoint');
         }
       },
       onCancel: () => {},

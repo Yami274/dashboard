@@ -41,7 +41,8 @@ export default function DevicesPage() {
   const [selectedDevice, setSelectedDevice] = React.useState<Device | null>(null);
   const [isDetailDialogOpen, setIsDetailDialogOpen] = React.useState(false);
   const { showConfirmDialog, ConfirmDialogComponent } = useConfirmDialog();
-  const { setErrorMessage } = useAlert();
+  const { error, success } = useAlert();
+
 
   useEffect(() => {
     mutate();
@@ -60,7 +61,7 @@ export default function DevicesPage() {
       setSelectedDevice(resp?.data);
       setIsDetailDialogOpen(true);
     } catch (error: any) {
-      setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to get Device');
+      Error(error?.response?.data?.message || error?.message || 'Failed to get Device');
     }
   };
 
@@ -73,7 +74,7 @@ export default function DevicesPage() {
           await deleteDevice(row?.metadata?.namespace || '', row?.metadata?.name || '');
           mutate();
         } catch (error: any) {
-          setErrorMessage(error?.response?.data?.message || error?.message || 'Failed to delete Device');
+          Error(error?.response?.data?.message || error?.message || 'Failed to delete Device');
         }
       },
       onCancel: () => {},
@@ -118,7 +119,7 @@ export default function DevicesPage() {
       <AddDeviceDialog
         open={isAddDeviceDialogOpen}
         onClose={handleCloseAddDeviceDialog}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
       />
       {ConfirmDialogComponent}
     </Box>
