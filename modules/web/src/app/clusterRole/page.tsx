@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { Box, TextField, Button } from '@mui/material';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { createClusterRole, deleteClusterRole, getClusterRole, useListClusterRoles } from '@/api/clusterRole';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
-import AddClusterRoleDialog from '@/component/AddClusterRoleDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
+import AddClusterRoleDialog from '@/components/Form/AddClusterRoleDialog';
 import { ClusterRole } from '@/types/clusterRole';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';

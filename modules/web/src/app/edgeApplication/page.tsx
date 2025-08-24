@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box, TextField, Button } from '@mui/material';
 import { createEdgeApplication, deleteEdgeApplication, getEdgeApplication, useListEdgeApplications } from '@/api/edgeApplication';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
-import AddEdgeApplicationDialog from '@/component/AddEdgeApplicationDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
+import AddEdgeApplicationDialog from '@/components/Form/AddEdgeApplicationDialog';
 import { EdgeApplication } from '@/types/edgeApplication';
 import { useNamespace } from '@/hook/useNamespace';
 import useConfirmDialog from '@/hook/useConfirmDialog';

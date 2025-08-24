@@ -3,11 +3,11 @@
 import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { createDevice, deleteDevice, getDevice, useListDevices } from '@/api/device';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Device } from '@/types/device';
 import { useNamespace } from '@/hook/useNamespace';
-import DeviceDetailDialog from '@/component/DeviceDetailDialog';
-import AddDeviceDialog from '@/component/AddDeviceDialog';
+import DeviceDetailDialog from '@/components/Dialog/DeviceDetailDialog';
+import AddDeviceDialog from '@/components/Form/AddDeviceDialog';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';
 

@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box, TextField, Button } from '@mui/material';
 import { createDeployment, deleteDeployment, getDeployment, useListDeployments } from '@/api/deployment';
 import { Deployment } from '@/types/deployment';
 import { useNamespace } from '@/hook/useNamespace';
 import useConfirmDialog from '@/hook/useConfirmDialog';
-import DeploymentDrawer from '@/component/DeploymentDrawer';
-import DeploymentDetailDialog from '@/component/DeploymentDetailDialog';
+import DeploymentDrawer from '@/components/Common/DeploymentDrawer';
+import DeploymentDetailDialog from '@/components/Dialog/DeploymentDetailDialog';
 import { useListPods } from '@/api/pod';
 import { useAlert } from '@/hook/useAlert';
 

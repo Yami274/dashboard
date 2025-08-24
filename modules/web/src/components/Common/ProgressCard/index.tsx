@@ -1,5 +1,5 @@
 import { Box, Card, CardHeader, CardContent, Typography } from '@mui/material';
-import { ProgressRing, type ProgressRingProps } from '@/component/ProgressRing'
+import { ProgressRing, type ProgressRingProps } from '@/components/Common/ProgressRing'
 
 interface ProgressCardProps {
   title?: string;

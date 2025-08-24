@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Button, IconButton, Typography, Paper, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Add as AddIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
-import { StatusFeedback } from '../StatusFeedback';
-import { CascadeSelect } from '../CascadeSelect';
+import { StatusFeedback } from '@/components/Common/StatusFeedback';
+import { CascadeSelect } from '@/components/Common/CascadeSelect';
 
 export interface ProTableProps<T> {
   title?: string;

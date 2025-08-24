@@ -11,7 +11,7 @@ import useCookie from '@/hook/useCookie';
 import { useAlert } from '@/hook/useAlert';
 import { useKeinkRunnable } from '@/api/keink';
 import useConfirmDialog from '@/hook/useConfirmDialog';
-import KeinkDialog from '@/component/KeinkDialog';
+import KeinkDialog from '@/components/Dialog/KeinkDialog';
 
 const LoginPage = () => {
   const [token, setToken] = useState('');

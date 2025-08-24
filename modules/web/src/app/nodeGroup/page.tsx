@@ -1,13 +1,13 @@
 // 'use client';
 
 // import React from 'react';
-// import { ColumnDefinition, TableCard } from '@/component/TableCard';
+// import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 // import { Box } from '@mui/material';
 // import { LocalizationProvider } from '@mui/x-date-pickers';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { createNodeGroup, deleteNodeGroup, getNodeGroup, useListNodeGroups } from '@/api/nodeGroup';
-// import YAMLViewerDialog from '@/component/YAMLViewerDialog';
-// import AddNodeGroupDialog from '@/component/AddNodeGroupDialog';
+// import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
+// import AddNodeGroupDialog from '@/components/Form/AddNodeGroupDialog';
 // import type { NodeGroup } from '@/types/nodeGroup';
 // import useConfirmDialog from '@/hook/useConfirmDialog';
 // import { useAlert } from '@/hook/useAlert';
@@ -121,17 +121,17 @@
 'use client';
 
 import React from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { deleteNodeGroup, getNodeGroup, useListNodeGroups } from '@/api/nodeGroup'; 
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
-import AddNodeGroupDialog from '@/component/AddNodeGroupDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
+import AddNodeGroupDialog from '@/components/Form/AddNodeGroupDialog';
 import type { NodeGroup } from '@/types/nodeGroup';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';
-import AddNodegroupDialog from '@/component/AddNodeGroupDialog';
+import AddNodegroupDialog from '@/components/Form/AddNodeGroupDialog';
 
 
 const columns: ColumnDefinition<NodeGroup>[] = [

@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box, TextField, Button } from '@mui/material';
 import { createDeviceModel, deleteDeviceModel, getDeviceModel, useListDeviceModels } from '@/api/deviceModel';
-import AddDeviceModelDialog from '@/component/AddDeviceModelDialog';
-import DeviceModelDetailDialog from '@/component/DeviceModelDetailDialog';
+import AddDeviceModelDialog from '@/components/Form/AddDeviceModelDialog';
+import DeviceModelDetailDialog from '@/components/Dialog/DeviceModelDetailDialog';
 import { DeviceModel } from '@/types/deviceModel';
 import { useNamespace } from '@/hook/useNamespace';
 import useConfirmDialog from '@/hook/useConfirmDialog';

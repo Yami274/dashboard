@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
 import { Node } from '@/types/node';
 import { getNodeStatus } from '@/helper/status';
 import { convertKiToGTM } from '@/helper/util';

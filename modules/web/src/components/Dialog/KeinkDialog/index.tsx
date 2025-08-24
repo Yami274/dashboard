@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, Box, DialogContent, DialogTitle, Typography } from '@mui/material';
-import SSEOutputArea from '../SSEOutputArea';
+import SSEOutputArea from '@/components/Common/SSEOutputArea';
 
 const style = {
   position: 'absolute' as const,

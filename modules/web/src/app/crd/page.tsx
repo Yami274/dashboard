@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box, TextField, Button } from '@mui/material';
 import { getCustomResourceDefinition, useListCustomResourceDefinitions } from '@/api/customResourceDefinition';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
 import { CustomResourceDefinition } from '@/types/customResourceDefinition';
 import { useAlert } from '@/hook/useAlert';
 

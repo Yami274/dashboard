@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box } from '@mui/material';
 import { createRuleEndpoint, deleteRuleEndpoint, getRuleEndpoint, useListRuleEndpoints } from '@/api/ruleEndpoint';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
 import { RuleEndpoint } from '@/types/ruleEndpoint';
-import AddRuleEndpointDialog from '@/component/AddRuleEndpointDialog';
+import AddRuleEndpointDialog from '@/components/Form/AddRuleEndpointDialog';
 import { useNamespace } from '@/hook/useNamespace';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';

@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box, TextField, Button } from '@mui/material';
 import { createConfigMap, deleteConfigMap, getConfigMap, useListConfigMaps } from '@/api/configMap';
 import { ConfigMap } from '@/types/configMap';
 import { useNamespace } from '@/hook/useNamespace';
-import AddConfigmapDialog from '@/component/AddConfigmapDialog';
-import ConfigmapDetailDialog from '@/component/ConfigmapDetailDialog';
+import AddConfigmapDialog from '@/components/Form/AddConfigmapDialog';
+import ConfigmapDetailDialog from '@/components/Dialog/ConfigmapDetailDialog';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';
 

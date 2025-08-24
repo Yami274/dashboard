@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { Box, CssBaseline } from '@mui/material';
-import SideNav from "@/component/SideNav";
-import { AppHeader } from "@/component/AppHeader";
+import SideNav from "@/components/Common/SideNav";
+import { AppHeader } from "@/components/Common/AppHeader";
 import { menu } from "@/config/menu";
-import { AppProvider } from '@/component/AppContext';
+import { AppProvider } from '@/components/Common/AppContext';
 import { usePathname } from 'next/navigation';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

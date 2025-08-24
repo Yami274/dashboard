@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { createClusterRoleBinding, deleteClusterRoleBinding, getClusterRoleBinding, useListClusterRoleBindings } from '@/api/clusterRoleBinding';
-import AddClusterRoleBindingDialog from '@/component/AddClusterRoleBindingDialog';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
+import AddClusterRoleBindingDialog from '@/components/Form/AddClusterRoleBindingDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
 import { ClusterRoleBinding } from '@/types/clusterRoleBinding';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';

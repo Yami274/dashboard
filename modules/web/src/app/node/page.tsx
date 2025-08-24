@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
-import { NodeDetailDialog } from '@/component/NodeDetailDialog';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
+import { NodeDetailDialog } from '@/components/Dialog/NodeDetailDialog';
 import {
   Box,
   TextField,
@@ -14,7 +14,7 @@ import { deleteNode, getNode, useListNodes } from '@/api/node';
 import { Editor } from '@tinymce/tinymce-react';
 import { Node } from '@/types/node';
 import { getNodeStatus } from '@/helper/status';
-import AddNodeDialog from '@/component/AddNodeDialog';
+import AddNodeDialog from '@/components/Form/AddNodeDialog';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';
 

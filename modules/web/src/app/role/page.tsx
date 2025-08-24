@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box } from '@mui/material';
 import { createRole, deleteRole, getRole, useListRoles } from '@/api/role';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
-import AddRoleDialog from '@/component/AddRoleDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
+import AddRoleDialog from '@/components/Form/AddRoleDialog';
 import { Role } from '@/types/role';
 import { useNamespace } from '@/hook/useNamespace';
 import useConfirmDialog from '@/hook/useConfirmDialog';

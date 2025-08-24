@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { ColumnDefinition, TableCard } from '@/component/TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { Box, TextField, Button } from '@mui/material';
 import { createServiceAccount, deleteServiceAccount, getServiceAccount, useListServiceAccounts } from '@/api/serviceAccount';
-import YAMLViewerDialog from '@/component/YAMLViewerDialog';
+import YAMLViewerDialog from '@/components/Dialog/YAMLViewerDialog';
 import { ServiceAccount } from '@/types/serviceAccount';
-import AddServiceAccountDialog from '@/component/AddServiceAccountDialog';
+import AddServiceAccountDialog from '@/components/Form/AddServiceAccountDialog';
 import { useNamespace } from '@/hook/useNamespace';
 import useConfirmDialog from '@/hook/useConfirmDialog';
 import { useAlert } from '@/hook/useAlert';

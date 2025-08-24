@@ -3,10 +3,10 @@
 import styles from "./page.module.css";
 import { Grid } from '@mui/material';
 import React, { useEffect } from 'react';
-import { ProgressCard } from '@/component/ProgressCard';
-import { StatusCard } from '@/component/StatusCard';
-import { VersionCard } from '@/component/VersionCard';
-import { PodsTable } from '@/component/PodTable';
+import { ProgressCard } from '@/components/Common/ProgressCard';
+import { StatusCard } from '@/components/Common/StatusCard';
+import { VersionCard } from '@/components/Common/VersionCard';
+import { PodsTable } from '@/components/Table/PodTable';
 import { useListPods } from "@/api/pod";
 import { useNamespace } from "@/hook/useNamespace";
 import { useGetK8sVersion } from "@/api/version";

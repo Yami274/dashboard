@@ -9,7 +9,7 @@
 //   return { setErrorMessage: context.setErrorMessage };
 // }
 import { useContext } from 'react';
-import { AppContext } from '@/component/AppContext';
+import { AppContext } from '@/components/Common/AppContext';
 
 export const useAlert = () => {
   const context = useContext(AppContext);

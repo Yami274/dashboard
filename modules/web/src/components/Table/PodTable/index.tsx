@@ -1,7 +1,7 @@
 import { IconButton, Box } from '@mui/material'
 import { Circle, MoreVert } from '@mui/icons-material';
 import { Pod } from '@/types/pod';
-import { ColumnDefinition, TableCard } from '../TableCard';
+import { ColumnDefinition, TableCard } from '@/components/Common/TableCard';
 import { getPodStatus } from '@/helper/status';
 
 const statusColor = {
@@ -19,19 +19,19 @@ const columns: ColumnDefinition<Pod>[] = [
   {
     name: '',
     key: 'status-icon',
-    render: (row) => <Circle style={{ color: (statusColor as any)[row.status?.phase || 'Fault'] || 'lightgrey', fontSize: 10 }}/>
+    render: (row: Pod) => <Circle style={{ color: (statusColor as any)[row.status?.phase || 'Fault'] || 'lightgrey', fontSize: 10 }}/>
   },
   {
     name: 'Name',
-    render: (row) => row.metadata?.name,
+    render: (row: Pod) => row.metadata?.name,
   },
   {
     name: 'Namespace',
-    render: (row) => row.metadata?.namespace,
+    render: (row: Pod) => row.metadata?.namespace,
   },
   {
     name: 'Images',
-    render: (row) => row.status?.containerStatuses?.map(status => status?.image)?.map((image) => (
+    render: (row: Pod) => row.status?.containerStatuses?.map((status: any) => status?.image)?.map((image: string) => (
       <>
         <span>{image}</span>
         <br/>
@@ -40,7 +40,7 @@ const columns: ColumnDefinition<Pod>[] = [
   },
   {
     name: 'Labels',
-    render: (row) => Object.keys(row.metadata?.labels || {})?.map((value: string) => {
+    render: (row: Pod) => Object.keys(row.metadata?.labels || {})?.map((value: string) => {
       return (
         <>
           <span>{`${value}: ${row.metadata?.labels?.[value]}`}</span><br/>
@@ -50,27 +50,27 @@ const columns: ColumnDefinition<Pod>[] = [
   },
   {
     name: 'Node',
-    render: (row) => row.spec?.nodeName,
+    render: (row: Pod) => row.spec?.nodeName,
   },
   {
     name: 'Status',
-    render: (row) => getPodStatus(row),
+    render: (row: Pod) => getPodStatus(row),
   },
   {
     name: 'Restarts',
-    render: (row) => row.status?.containerStatuses?.reduce((prev, cur) => prev + (cur.restartCount || 0), 0),
+    render: (row: Pod) => row.status?.containerStatuses?.reduce((prev: number, cur: any) => prev + (cur.restartCount || 0), 0),
   },
   {
     name: 'CPU',
-    render: (row) => row.spec?.containers?.at(0)?.resources?.requests?.cpu,
+    render: (row: Pod) => row.spec?.containers?.at(0)?.resources?.requests?.cpu,
   },
   {
     name: 'Memory',
-    render: (row) => row.spec?.containers?.at(0)?.resources?.requests?.memory,
+    render: (row: Pod) => row.spec?.containers?.at(0)?.resources?.requests?.memory,
   },
   {
     name: 'Created',
-    render: (row) => row.metadata?.creationTimestamp,
+    render: (row: Pod) => row.metadata?.creationTimestamp,
   }
 ]
 
